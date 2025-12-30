@@ -4,17 +4,13 @@ namespace App\Actions\Tasks;
 
 use Exception;
 use App\Models\Task;
+use App\Enums\TaskStatus;
 
 class UpdateTaskStatus
 {
-    protected array $allowedTransitions = [
-        'draft' => ['in_progress'],
-        'in_progress' => ['completed'],
-    ];
-
-    public function execute(Task $task, string $newStatus): void
+    public function execute(Task $task, TaskStatus $newStatus): void
     {
-        if (! in_array($newStatus, $this->allowedTransitions[$task->status] ?? [])) {
+        if (! $task->status->canTransitionTo($newStatus)) {
             throw new Exception('Invalid status transition.');
         }
 
