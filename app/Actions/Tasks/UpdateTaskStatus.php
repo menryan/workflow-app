@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Task;
 use App\Models\User;
 use App\Enums\TaskStatus;
+use App\Jobs\NotifyTaskCompleted;
 use Illuminate\Support\Facades\Gate;
 
 class UpdateTaskStatus
@@ -19,5 +20,9 @@ class UpdateTaskStatus
         }
 
         $task->update(['status' => $newStatus]);
+
+        if ($newStatus === TaskStatus::COMPLETED) {
+            NotifyTaskCompleted::dispatch($task->id);
+        }
     }
 }
