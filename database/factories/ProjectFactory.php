@@ -19,7 +19,7 @@ class ProjectFactory extends Factory
     {
         return [
             'owner_id' => User::factory(),
-            'name' => fake()->words(2, true)
+            'name' => 'Project ' . fake()->randomNumber()
         ];
     }
 }

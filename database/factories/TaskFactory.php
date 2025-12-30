@@ -19,7 +19,8 @@ class TaskFactory extends Factory
     {
         return [
             'project_id' => Project::factory(),
-            'title' => 'Task ' . fake()->randomNumber()
+            'title' => 'Task ' . fake()->randomNumber(),
+            'status' => 'draft'
         ];
     }
 }
