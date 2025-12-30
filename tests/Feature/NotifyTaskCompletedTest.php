@@ -47,3 +47,15 @@ it('does not dispatches a notification job when task status is other than comple
 
     Queue::assertNotPushed(NotifyTaskCompleted::class);
 });
+
+it('does not notify twice for the same task', function () {
+    $task = Task::factory()->create([
+        'completed_notified_at' => now(),
+    ]);
+
+    $job = new NotifyTaskCompleted($task->id);
+
+    $job->handle();
+
+    expect($task->fresh()->completed_notified_at)->not->toBeNull();
+});
