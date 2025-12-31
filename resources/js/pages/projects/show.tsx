@@ -1,19 +1,22 @@
 import TaskRow from '@/components/task-row';
-import { PageProps } from '@/types';
 import { Project } from '@/types';
 
-interface Props extends PageProps {
+interface Props {
   project: Project;
 }
 
 export default function Show({ project }: Props) {
   return (
-    <div>
-      <h1>{project.name}</h1>
+    <div className="max-w-2xl mx-auto p-6">
+      <h1 className="text-xl font-semibold mb-4">
+        {project.name}
+      </h1>
 
-      {project.tasks.map(task => (
-        <TaskRow key={task.id} task={task} />
-      ))}
+      <ul className="space-y-2">
+        {project.tasks.map(task => (
+          <TaskRow key={task.id} task={task} />
+        ))}
+      </ul>
     </div>
   );
 }
