@@ -12,13 +12,10 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::patch('/tasks/{task}/status', [TaskStatusController::class, 'update'])
-    ->middleware('auth');
-
-Route::get('/projects/{project}', [ProjectController::class, 'show'])
-    ->middleware('auth');
-
-
+Route::middleware('auth')->group(function () {
+    Route::get('/projects/{project}', [ProjectController::class, 'show']);
+    Route::patch('/tasks/{task}/status', [TaskStatusController::class, 'update']);
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
