@@ -11,7 +11,7 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        return inertia('Projects/Show', [
+        return inertia('projects/show', [
             'project' => $project->load('tasks'),
         ]);
     }
