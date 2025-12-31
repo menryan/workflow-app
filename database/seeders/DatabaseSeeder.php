@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
+        $user = User::factory()->withoutTwoFactor()->create([
             'email' => 'demo@example.com',
         ]);
 
