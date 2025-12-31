@@ -1,4 +1,4 @@
-import { Task } from '@/types';
+import { Task, TaskStatus } from '@/types';
 import { router } from '@inertiajs/react';
 
 interface Props {
@@ -19,23 +19,40 @@ export default function TaskRow({ task }: Props) {
     );
   };
 
-  return (
-    <li className="flex items-center justify-between border p-3 rounded">
-      <span>{task.title}</span>
+  const markInProgress = () => {
+    router.patch(
+      `/tasks/${task.id}/status`,
+      { status: 'in_progress' },
+        { 
+            preserveScroll: true,
+            onError: errors => {
+                alert(errors.status ?? 'You are not allowed to perform this action.');
+            },
+        },
+    );
+  };
 
-      {task.status !== 'completed' && (
+  return (
+    <li className="grid grid-cols-3 border p-3 rounded">
+      <span>{task.title}</span>
+      <span>{task.status}</span>
+      
+      {task.status !== 'draft' && task.status !== 'completed' && (
         <button
           onClick={markCompleted}
           className="text-sm text-green-600 hover:underline"
         >
-          Mark as completed
+          Mark as 'completed'
         </button>
       )}
 
-      {task.status === 'completed' && (
-        <span className="text-sm text-gray-500">
-          Completed
-        </span>
+      {task.status !== 'in_progress' && task.status !== 'completed' && (
+        <button
+          onClick={markInProgress}
+          className="text-sm text-green-600 hover:underline"
+        >
+          Mark as 'in progress'
+        </button>
       )}
     </li>
   );
